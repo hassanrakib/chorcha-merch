@@ -3,11 +3,13 @@
 import { useParams, useRouter } from "next/navigation";
 import useSWR from "swr";
 import { fetcher } from "@/lib/fetcher";
-import Image from "next/image";
+import { addToCart } from "@/lib/cart";
+import { useState } from "react";
 
 export default function ProductDetailsPage() {
     const { id } = useParams();
-    const router = useRouter();
+
+    const [added, setAdded] = useState(false);
 
     const { data: product, error, isLoading } = useSWR(
         `https://zia.chorcha.net/api/products/${id}`,
@@ -20,36 +22,17 @@ export default function ProductDetailsPage() {
     if (!product) return <div>Product not found</div>;
 
     const handleAddToCart = () => {
-        // addToCart(product, 1); // default quantity = 1
-        alert("Product added to cart!");
-    };
+        addToCart(product, 1);
+        setAdded(true);
 
+        setTimeout(() => setAdded(false), 1500); // show temporary message
+    };
     const handleBuyNow = () => {
-        // addToCart(product, 1);
-        // router.push("/checkout");
     };
 
     console.log(product);
 
     return (
-        // <div className="min-h-screen p-6">
-        //   <h1 className="text-2xl font-bold mb-4">{product.name}</h1>
-        //   <p className="mb-2">Price: ৳ {product.price}</p>
-        //   <p className="mb-6">{product.description}</p>
-
-        //   <button
-        //     onClick={handleAddToCart}
-        //     className="bg-blue-500 text-white px-4 py-2 rounded mr-2"
-        //   >
-        //     Add to Cart
-        //   </button>
-        //   <button
-        //     onClick={handleBuyNow}
-        //     className="bg-green-500 text-white px-4 py-2 rounded"
-        //   >
-        //     Buy Now
-        //   </button>
-        // </div>
 
         <div className="min-h-screen p-6 bg-gray-50 flex flex-col md:flex-row gap-8">
             {/* Product Image */}
@@ -74,10 +57,11 @@ export default function ProductDetailsPage() {
                 {/* Action Buttons */}
                 <div className="flex gap-4">
                     <button
+                        disabled={added}
                         onClick={handleAddToCart}
                         className="flex-1 bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition"
                     >
-                        Add to Cart
+                        added ? 'Added to Cart' : 'Add to Cart'
                     </button>
                     <button
                         onClick={handleBuyNow}
