@@ -57,11 +57,10 @@ export default function ProductDetailsPage() {
                 {/* Action Buttons */}
                 <div className="flex gap-4">
                     <button
-                        disabled={added}
                         onClick={handleAddToCart}
                         className="flex-1 bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition"
                     >
-                        {added ? 'Added to Cart' : 'Add to Cart'}
+                        Add to Cart
                     </button>
                     <button
                         onClick={handleBuyNow}
@@ -70,6 +69,11 @@ export default function ProductDetailsPage() {
                         Buy Now
                     </button>
                 </div>
+                {added && (
+                    <p className="text-green-600 font-semibold mt-2">
+                        Added to cart!
+                    </p>
+                )}
             </div>
         </div>
 
