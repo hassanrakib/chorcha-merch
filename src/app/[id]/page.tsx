@@ -61,7 +61,7 @@ export default function ProductDetailsPage() {
                         onClick={handleAddToCart}
                         className="flex-1 bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition"
                     >
-                        added ? 'Added to Cart' : 'Add to Cart'
+                        {added ? 'Added to Cart' : 'Add to Cart'}
                     </button>
                     <button
                         onClick={handleBuyNow}
