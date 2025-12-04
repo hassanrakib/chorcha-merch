@@ -3,49 +3,91 @@
 import { useParams, useRouter } from "next/navigation";
 import useSWR from "swr";
 import { fetcher } from "@/lib/fetcher";
+import Image from "next/image";
 
 export default function ProductDetailsPage() {
-  const { id } = useParams();
-  const router = useRouter();
+    const { id } = useParams();
+    const router = useRouter();
 
-  const { data: product, error, isLoading } = useSWR(
-    `https://zia.chorcha.net/api/products/${id}`,
-    fetcher
-  );
+    const { data: product, error, isLoading } = useSWR(
+        `https://zia.chorcha.net/api/products/${id}`,
+        fetcher
+    );
 
-  if (isLoading) return <div>Loading product...</div>;
-  if (error) return <div>Failed to load product.</div>;
+    if (isLoading) return <div>Loading product...</div>;
+    if (error) return <div>Failed to load product.</div>;
 
-  if (!product) return <div>Product not found</div>;
+    if (!product) return <div>Product not found</div>;
 
-  const handleAddToCart = () => {
-    // addToCart(product, 1); // default quantity = 1
-    alert("Product added to cart!");
-  };
+    const handleAddToCart = () => {
+        // addToCart(product, 1); // default quantity = 1
+        alert("Product added to cart!");
+    };
 
-  const handleBuyNow = () => {
-    // addToCart(product, 1);
-    // router.push("/checkout");
-  };
+    const handleBuyNow = () => {
+        // addToCart(product, 1);
+        // router.push("/checkout");
+    };
 
-  return (
-    <div className="min-h-screen p-6">
-      <h1 className="text-2xl font-bold mb-4">{product.name}</h1>
-      <p className="mb-2">Price: ৳ {product.price}</p>
-      <p className="mb-6">{product.description}</p>
+    console.log(product);
 
-      <button
-        onClick={handleAddToCart}
-        className="bg-blue-500 text-white px-4 py-2 rounded mr-2"
-      >
-        Add to Cart
-      </button>
-      <button
-        onClick={handleBuyNow}
-        className="bg-green-500 text-white px-4 py-2 rounded"
-      >
-        Buy Now
-      </button>
-    </div>
-  );
+    return (
+        // <div className="min-h-screen p-6">
+        //   <h1 className="text-2xl font-bold mb-4">{product.name}</h1>
+        //   <p className="mb-2">Price: ৳ {product.price}</p>
+        //   <p className="mb-6">{product.description}</p>
+
+        //   <button
+        //     onClick={handleAddToCart}
+        //     className="bg-blue-500 text-white px-4 py-2 rounded mr-2"
+        //   >
+        //     Add to Cart
+        //   </button>
+        //   <button
+        //     onClick={handleBuyNow}
+        //     className="bg-green-500 text-white px-4 py-2 rounded"
+        //   >
+        //     Buy Now
+        //   </button>
+        // </div>
+
+        <div className="min-h-screen p-6 bg-gray-50 flex flex-col md:flex-row gap-8">
+            {/* Product Image */}
+            <div className="md:w-1/2 flex justify-center items-center bg-white rounded-xl shadow p-4">
+                <img
+                    src={product.image || "/placeholder.png"}
+                    alt={product.name}
+                    className="object-contain h-80 w-full rounded-lg"
+                />
+            </div>
+
+            {/* Product Info */}
+            <div className="md:w-1/2 flex flex-col justify-between">
+                <div>
+                    <h1 className="text-3xl font-bold mb-4">{product.name}</h1>
+                    <p className="text-2xl text-blue-600 font-semibold mb-4">
+                        ৳ {product.price}
+                    </p>
+                    <p className="text-gray-700 mb-6">{product.description}</p>
+                </div>
+
+                {/* Action Buttons */}
+                <div className="flex gap-4">
+                    <button
+                        onClick={handleAddToCart}
+                        className="flex-1 bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition"
+                    >
+                        Add to Cart
+                    </button>
+                    <button
+                        onClick={handleBuyNow}
+                        className="flex-1 bg-green-500 text-white px-6 py-3 rounded-lg hover:bg-green-600 transition"
+                    >
+                        Buy Now
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    );
 }
