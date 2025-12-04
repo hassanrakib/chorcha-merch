@@ -37,7 +37,7 @@ export default function ProductListPage() {
         {data?.map((product: any) => (
           <Link
             key={product.id}
-            href={`/products/${product._id}`}
+            href={`${product.id}`}
             className="bg-white rounded-xl shadow hover:shadow-lg transition p-4"
           >
             <div className="h-48 w-full flex items-center justify-center bg-gray-100 rounded-lg mb-4">
